@@ -1,0 +1,13 @@
+{
+  "extractedZip": true,
+  "compiledUI": true,
+  "catalog105": true,
+  "preview": true,
+  "health": {
+    "status": "ok",
+    "product": "meusite",
+    "version": "0.1.0"
+  },
+  "missing": [],
+  "errors": []
+}
