@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent
 BACKEND = ROOT / "backend"
 # Sem banco, a API cairia no SQLite local e perderia os dados a cada reinício.
 # LOGIN_HMAC_SECRET: chave do HMAC do e-mail no bloqueio de login (kit _kit_web).
-REQUIRED = ("DATABASE_URL", "LOGIN_HMAC_SECRET")
+REQUIRED = ("DATABASE_URL", "LOGIN_HMAC_SECRET", "JWT_SECRET")
 DEFAULTS = {"APP_ORIGINS": "https://meusite.shardweb.app", "COOKIE_SECURE": "true"}
 PACKAGES = (
     "fastapi",
@@ -26,6 +26,7 @@ PACKAGES = (
     "httpx",
     "pypdf",
     "cryptography",
+    "jwt",
 )
 
 
@@ -91,6 +92,9 @@ def main() -> int:
         return 2
     if len(os.environ.get("LOGIN_HMAC_SECRET", "")) < 32:
         log("LOGIN_HMAC_SECRET precisa ser um segredo novo com pelo menos 32 caracteres.")
+        return 2
+    if len(os.environ.get("JWT_SECRET", "")) < 32:
+        log("JWT_SECRET precisa ser próprio do MeuSite com pelo menos 32 caracteres.")
         return 2
     if not ensure_packages():
         log("Falha ao instalar as dependências. A API não foi iniciada.")

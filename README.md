@@ -1,6 +1,6 @@
 # MeuSite — sites para pequenos negócios
 
-Aplicação **independente** derivada da base técnica do Folios, sem seus usuários, banco, segredos ou domínio. React/Vite/TypeScript + FastAPI/PostgreSQL, publicação em snapshot e editor autenticado.
+Aplicação **independente** derivada da base técnica do Folios, sem seus usuários, banco, segredos ou domínio. React/Vite/TypeScript + FastAPI/Python/PostgreSQL com SQLAlchemy, Alembic e JWT, publicação em snapshot e editor autenticado.
 
 - **105 modelos**: 75 composições da base adaptadas ao conteúdo de negócios + 30 modelos dos segmentos das pranchas 11–20, organizados em 12 famílias de composição.
 - Página de apresentação, catálogo público de modelos e editor de negócio/catálogo/aparência/artes.
@@ -14,7 +14,7 @@ Use **meusite-shardcloud.zip** em um **NOVO aplicativo Python**, não no Folios.
 
 1. Crie um banco PostgreSQL **novo e vazio**, exclusivo deste produto.
 2. Envie `meusite-shardcloud.zip` como arquivo da aplicação. Na raiz devem aparecer `run.py`, `main.py`, `backend/` e `frontend/dist/`.
-3. Configure as variáveis do [guia de publicação](docs/PUBLICAR_SHARDCLOUD.md): `DATABASE_URL`, um `LOGIN_HMAC_SECRET` novo, `APP_ORIGINS` com a URL real do novo app e `COOKIE_SECURE=true`.
+3. Configure as variáveis do [guia de publicação](docs/PUBLICAR_SHARDCLOUD.md): `DATABASE_URL`, um `LOGIN_HMAC_SECRET` e um `JWT_SECRET` novos, `APP_ORIGINS` com a URL real do novo app e `COOKIE_SECURE=true`.
 4. Inicie com `python main.py` (ou `python run.py`). A inicialização valida a identidade do banco e aplica migrações.
 5. Confira `/health`, `/`, `/modelos`, cadastro, editor, publicação e envio de solicitação. Ative **Reiniciar após Deploy**.
 

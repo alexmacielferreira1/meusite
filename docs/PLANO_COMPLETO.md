@@ -13,7 +13,7 @@ Primeiros pilotos recomendados: pizzaria de bairro, prestador de serviços e imo
 | Área | Comportamento implementado |
 |---|---|
 | Plataforma | Landing MeuSite, catálogo público de modelos, exemplos e dez pranchas navegáveis |
-| Conta | Cadastro, login, sessão, saída e editor por proprietário |
+| Conta | Cadastro, login JWT em cookie HttpOnly, expiração, revogação, saída e editor por proprietário |
 | Conteúdo | Nome, segmento, apresentação, CTA, contato, endereço, cidade, horários e imagem principal |
 | Catálogo | Produtos, serviços e imóveis; categorias, preço em centavos, descrição, imagem, disponibilidade, destaque |
 | Alimentação | Carrinho, quantidades, adicionais, meia-meia por item, regra maior sabor/média, retirada/entrega, taxa, mínimo e restrição por prefixos de CEP |
@@ -98,7 +98,7 @@ frontend/src/business/
 frontend/src/site/    75 composições da base e componentes compartilhados
 frontend/src/components/ArtStudio.tsx e LayerStudio.tsx
 backend/app/modules/
-  auth.py             conta e sessão
+  auth.py             conta e sessão JWT
   sites.py            documento, revisão e snapshot
   business.py         validação empresarial, pedidos e caixa privada
   ai.py / aiadmin.py  provedor textual, limites e créditos
@@ -190,3 +190,8 @@ Publicação concluída, tempo de preenchimento, visitas → ação, pedidos vá
 ## 13. Sequência imediatamente após o upload
 
 Publicar em app novo → criar conta do dono → configurar identidade e catálogo real → testar em celular → publicar → fazer pedido de teste → confirmar no painel → só então divulgar. Em paralelo, priorizar fase 2 conforme o segmento piloto. O Folios continua como produto separado, com sua própria revisão de canvas e de cinematografia.
+
+
+## Autenticação JWT
+
+JWT assinado com HS256, issuer meusite, audience meusite-web, sub, jti, iat, nbf e exp. O token fica em cookie HttpOnly/Secure/SameSite=Lax em produção; não vai para localStorage nem para o JSON de resposta. Cada requisição verifica assinatura/claims e a sessão persistida (hash do token), permitindo logout e revogação imediatos. JWT_SECRET precisa ser novo e exclusivo; LOGIN_HMAC_SECRET continua separado para o bloqueio de login. Duração inicial de sete dias; não há endpoint de refresh nesta versão.

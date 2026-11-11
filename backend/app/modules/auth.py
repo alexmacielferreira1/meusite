@@ -22,6 +22,7 @@ from app.security.bloqueio_login import (
     BloqueioLogin,
     RegraBloqueio,
 )
+from app.security.jwt_tokens import create_token, token_subject
 from app.security.limite import ip_do_pedido
 
 router = APIRouter(prefix="/auth")
@@ -180,14 +181,20 @@ def is_admin_email(email):
 
 def user_from_session(request: Request):
     token = request.cookies.get(COOKIE, "")
-    if token and len(token) <= 100:
+    subject = token_subject(token)
+    if subject:
         with engine.connect() as conn:
             row = (
                 conn.execute(
                     text("""SELECT a.id, a.name, a.email FROM accounts a
                 JOIN sessions s ON s.account_id = a.id
-                WHERE s.token_hash = :token AND s.expires_at > :now AND a.disabled = :off"""),
-                    {"token": digest(token), "now": int(time.time()), "off": False},
+                WHERE s.token_hash = :token AND s.expires_at > :now AND a.id = :subject AND a.disabled = :off"""),
+                    {
+                        "token": digest(token),
+                        "now": int(time.time()),
+                        "subject": subject,
+                        "off": False,
+                    },
                 )
                 .mappings()
                 .first()
@@ -199,7 +206,7 @@ def user_from_session(request: Request):
 
 def open_session(conn, request, response, account):
     now = int(time.time())
-    token = secrets.token_urlsafe(32)
+    token = create_token(str(account["id"]), SESSION_TTL)
     previous = request.cookies.get(COOKIE)
     conn.execute(
         text("DELETE FROM sessions WHERE expires_at <= :now OR token_hash = :old"),

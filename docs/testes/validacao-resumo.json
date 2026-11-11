@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "date": "2026-11-11",
   "frontendUnitTests": 5,
-  "backendTests": 11,
+  "backendTests": 15,
   "models": 105,
   "viewports": [
     1280,
@@ -35,5 +35,6 @@
     "draft snapshot separation"
   ],
   "productionShardCloud": "not deployed; owner must create a new app and database",
-  "realAiProviderCalls": false
+  "realAiProviderCalls": false,
+  "authentication": "JWT HS256 in HttpOnly cookie with persisted revocation"
 }

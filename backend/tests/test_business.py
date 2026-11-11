@@ -122,7 +122,7 @@ def account():
 
 
 def publish(c, b):
-    me = c.get("/api/v1/auth/me").json()
+    me = c.get("/api/v1/auth/session").json()
     slug = "loja-" + uuid4().hex[:10]
     draft = {
         "business": b.model_dump(),

@@ -4,7 +4,7 @@
 
 - 105 exemplos: 75 composições da base e 30 empresariais; renderização em 1280/390 px, sem erros JS, sem imagens ausentes e sem overflow horizontal na bateria de navegador.
 - Dez pranchas com três sites cada, capturadas das implementações após aguardar carregamento das páginas e imagens.
-- Cadastro no navegador, editor e publicação reais usando PostgreSQL isolado.
+- Cadastro/login com JWT em cookie HttpOnly, revogação no logout, editor e publicação reais usando PostgreSQL isolado.
 - Pedido público com adicional, valor calculado no servidor, protocolo, caixa privada e mudança de status.
 - Rascunho alterado sem modificar o snapshot público.
 - Proteção de propriedade na caixa, token contra duplicidade, itens/adicionais/CEP validados e recusa de banco sem identidade MeuSite.

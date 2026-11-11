@@ -26,6 +26,7 @@ Pode ser outro banco no seu provedor PostgreSQL, sem copiar registros do banco a
 | Variável | Valor |
 |---|---|
 | DATABASE_URL | URL do PostgreSQL novo; se o provedor exigir SSL, use `?sslmode=require` |
+| JWT_SECRET | Segredo exclusivo para assinar JWT, aleatório, com pelo menos 32 bytes |
 | LOGIN_HMAC_SECRET | Segredo novo, aleatório, com pelo menos 32 bytes; não reutilizar o do Folios |
 | APP_ORIGINS | URL exata do novo app, sem barra no fim, por exemplo `https://meusite.shardweb.app` |
 | COOKIE_SECURE | `true` em HTTPS |
@@ -41,7 +42,7 @@ Para gerar o segredo em um terminal de confiança:
 python -c "import secrets; print(secrets.token_urlsafe(48))"
 ```
 
-Guarde o resultado apenas nas variáveis do painel. Não coloque em commits, ZIPs ou mensagens públicas. Para dois domínios, liste ambos em APP_ORIGINS separados por vírgula, sem espaços. Não inclua folios.id.
+Gere dois valores diferentes: um para JWT_SECRET e outro para LOGIN_HMAC_SECRET. Guarde os resultados apenas nas variáveis do painel. Não coloque em commits, ZIPs ou mensagens públicas. Para dois domínios, liste ambos em APP_ORIGINS separados por vírgula, sem espaços. Não inclua folios.id.
 
 IA é opcional. Para ativar sugestões, configure `ANTHROPIC_API_KEY` e `ANTHROPIC_MODEL` ou cadastre o provedor no painel de IA da conta administrativa. Para guardar chaves pelo painel, defina `AI_KEYS_SECRET` próprio antes. Sem IA configurada, editor, modelos, pedidos e publicação funcionam.
 
