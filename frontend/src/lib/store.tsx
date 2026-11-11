@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import type { Portfolio } from "../types/portfolio";
 import { api, ApiError, type User } from "./api";
 import { demoPortfolio } from "../data/seed";
+import { businessDemo } from "../business/adapter";
 import { DEMO_MODE } from "../config/app";
 import { slugify } from "./utils";
 
@@ -31,14 +32,14 @@ function blank(user?: User, credits = 10): Portfolio {
       bio: "", whatsapp: "", instagram: "", linkedin: "", website: "", available: false, inDirectory: false, stats: [], pillars: [],
     },
     works: [], clients: [], services: [], experience: [], education: [], testimonials: [],
-    site: { ...p.site, slug: slugify(user?.name ?? "").slice(0, 50).replace(/-$/, "") || "meu-negocio", published: false },
+    site: { ...p.site, templateId:"biz-pizzaria", theme:{...p.site.theme,accent:"#176d58",radius:"lg"}, slug: slugify(user?.name ?? "").slice(0, 50).replace(/-$/, "") || "meu-negocio", published: false },
     plan: "gratis", aiCredits: credits, analytics: { visits: Array(14).fill(0), contactClicks: 0, topWork: "" },
   };
 }
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [user, putUser] = useState<User | null>(() => DEMO_MODE ? api.currentUser() : null);
-  const [portfolio, putPortfolio] = useState<Portfolio>(() => DEMO_MODE ? api.loadPortfolio() ?? demoPortfolio() : blank());
+  const [portfolio, putPortfolio] = useState<Portfolio>(() => DEMO_MODE ? api.loadPortfolio() ?? businessDemo() : blank());
   const [ready, setReady] = useState(DEMO_MODE);
   const [error, setError] = useState("");
   const [storageFull, setStorageFull] = useState(false);

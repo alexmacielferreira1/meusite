@@ -1,0 +1,30 @@
+.env
+.env.*
+!.env.example
+!env.example
+node_modules/
+# frontend/dist é versionado (git add -f): o pacote da ShardCloud leva o build pronto.
+# Rode o build (scripts/test.ps1 já roda) antes de commitar mudanças de tela.
+dist/
+# Marca de versão gravada pelo scripts/publicar.ps1 só na hora de montar o pacote.
+frontend/dist/build.txt
+deploy/
+*.log
+logs/
+.runtime/
+.DS_Store
+frontend/tests-e2e/shots/
+frontend/tests-e2e/fixtures/
+*.db
+*.db-*
+*.tsbuildinfo
+__pycache__/
+*.pyc
+.venv/
+.venv-shard/
+.pytest_cache/
+.ruff_cache/
+frontend/coverage/
+coverage/
+htmlcov/
+.coverage

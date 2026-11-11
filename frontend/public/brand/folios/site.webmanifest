@@ -1,0 +1,20 @@
+{
+  "name": "Folios",
+  "short_name": "Folios",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF8FD",
+  "theme_color": "#6A11CB",
+  "icons": [
+    {
+      "src": "/brand/folios/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/folios/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

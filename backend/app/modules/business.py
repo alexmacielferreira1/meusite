@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import re
 import time
 from datetime import datetime
 from typing import Literal
@@ -56,14 +57,8 @@ class Item(BaseModel):
     @field_validator("image")
     @classmethod
     def safe_image(cls, value):
-        if value and not value.startswith(
-            (
-                "https://",
-                "data:image/jpeg;base64,",
-                "data:image/png;base64,",
-                "data:image/webp;base64,",
-            )
-        ):
+        local = bool(re.fullmatch(r"/demos/[a-zA-Z0-9_-]+\.jpg", value))
+        if value and not local and not value.startswith(("https://", "data:image/jpeg;base64,", "data:image/png;base64,", "data:image/webp;base64,")):
             raise ValueError("Use uma imagem enviada ou endereço https.")
         return value
 
