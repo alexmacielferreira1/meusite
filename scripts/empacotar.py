@@ -31,6 +31,7 @@ ROOT_FILES = {
     "Dockerfile",
     "pyproject.toml",
     "AGENTS.md",
+    "CLAUDE.md",
     "VERSION",
 }
 
@@ -81,7 +82,7 @@ def main():
     for folder in ["backend/app", "backend/migrations", "frontend/dist"]:
         runtime.extend(p for p in (ROOT / folder).rglob("*") if p.is_file() and safe(p))
     source = [p for p in ROOT.iterdir() if p.is_file() and p.name in ROOT_FILES]
-    for folder in ["frontend", "backend", "docs", "scripts"]:
+    for folder in ["frontend", "backend", "docs", "docs_referencias", "scripts"]:
         source.extend(
             p
             for p in (ROOT / folder).rglob("*")

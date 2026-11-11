@@ -1,27 +1,28 @@
 import mimetypes
 import os
-import traceback
 from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy import text
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.db import engine
+from app.core.observability import CorrelationMiddleware, error_payload
 from app.modules import (
     admin,
     ai,
     aiadmin,
     auth,
     business,
+    hub,
     links,
     privacidade,
     share,
     sites,
 )
 from app.public_paths import valid_public_slug
+from app.security.csrf import valid_csrf
 from app.security.proxy import ProxyConfiavelMiddleware
 from app.security.seguranca_http import CabecalhosMiddleware, LimiteCorpoMiddleware, montar_csp
 
@@ -32,6 +33,7 @@ app = FastAPI(title="MeuSite API", version="0.1.0")
 for module in (auth, sites, business, ai, links, aiadmin, admin, privacidade):
     app.include_router(module.router, prefix="/api/v1")
 app.include_router(admin.public_router, prefix="/api/v1")
+app.include_router(hub.router)
 
 origins = set(
     os.getenv(
@@ -69,6 +71,24 @@ async def request_policy(request: Request, call_next):
     if api and request.method in {"POST", "PUT", "PATCH", "DELETE"}:
         if request.headers.get("origin") not in origins:
             return JSONResponse({"detail": "Origem da requisição inválida."}, status_code=403)
+    public_write = path in ("/api/v1/auth/login", "/api/v1/auth/register") or (
+        path.startswith("/api/v1/business/")
+        and not path.startswith("/api/v1/business/me/")
+        and path.endswith("/requests")
+    )
+    if (
+        api
+        and request.method in {"POST", "PUT", "PATCH", "DELETE"}
+        and not public_write
+        and request.cookies.get(auth.COOKIE)
+    ):
+        if not valid_csrf(request, auth.COOKIE, auth.CSRF_COOKIE):
+            return JSONResponse(
+                error_payload(
+                    request, "CSRF_INVALID", "Atualize a página ou entre novamente para continuar."
+                ),
+                status_code=403,
+            )
     response = await call_next(request)
     # Os demais cabeçalhos vêm do kit (CabecalhosMiddleware), que não sobrescreve estes.
     response.headers["X-Frame-Options"] = "SAMEORIGIN"  # prévia do editor em iframe
@@ -89,31 +109,49 @@ async def request_policy(request: Request, call_next):
 app.add_middleware(LimiteCorpoMiddleware, maximo=MAX_BODY, maximo_com_token=MAX_BODY)
 app.add_middleware(CabecalhosMiddleware, producao=auth.SECURE, csp=CSP, modo_csp=csp_mode())
 app.add_middleware(ProxyConfiavelMiddleware, saltos=proxy_hops())
+app.add_middleware(CorrelationMiddleware)
 
 
 @app.exception_handler(RequestValidationError)
-async def validation_error(_request, _exc):
-    return JSONResponse({"detail": "Confira os dados enviados e tente novamente."}, status_code=422)
+async def validation_error(request, _exc):
+    return JSONResponse(
+        error_payload(request, "VALIDATION_ERROR", "Confira os dados enviados e tente novamente."),
+        status_code=422,
+    )
+
+
+@app.exception_handler(StarletteHTTPException)
+async def public_http_error(request, exc):
+    message = (
+        exc.detail if isinstance(exc.detail, str) else "Não foi possível concluir a solicitação."
+    )
+    return JSONResponse(
+        error_payload(request, f"HTTP_{exc.status_code}", message, exc.status_code in (429, 503)),
+        status_code=exc.status_code,
+        headers=exc.headers,
+    )
 
 
 @app.exception_handler(Exception)
 async def unexpected_error(request: Request, exc: Exception):
-    # Falha não tratada: vai para a aba Erros da Administração, sem expor detalhes a quem chamou.
+    correlation = getattr(request.state, "correlation_id", "unknown")
+    # Never persist request bodies, SQL parameters or raw exception messages.
     admin.record_error(
         "api",
         request.url.path,
-        f"{type(exc).__name__}: {exc}",
-        "".join(traceback.format_exception(exc)),
+        "Erro interno",
+        f"type={type(exc).__name__};correlation={correlation}",
     )
     return JSONResponse(
-        {"detail": "Erro inesperado no servidor. A equipe já foi avisada."}, status_code=500
+        error_payload(
+            request, "INTERNAL_ERROR", "Erro inesperado no servidor. A equipe já foi avisada."
+        ),
+        status_code=500,
     )
 
 
 @app.get("/health")
 def health():
-    with engine.connect() as conn:
-        conn.execute(text("SELECT 1 FROM accounts LIMIT 1"))
     return {"status": "ok", "product": "meusite", "version": "0.1.0"}
 
 

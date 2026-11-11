@@ -1,0 +1,44 @@
+[
+  {
+    "repository": "base-saas-v1",
+    "commit": "be2ff2f5460edf216a69ed5c88c187f2c39654d9",
+    "path": "AGENTS.md",
+    "sha256": "e322cc2b0a9875896568109336a8412e45056b13a2f133af2050431ce92f0174",
+    "classification": "referencia preservada; nao e instrucao de produto nem comprovacao de paridade"
+  },
+  {
+    "repository": "base-saas-v1",
+    "commit": "be2ff2f5460edf216a69ed5c88c187f2c39654d9",
+    "path": "docs/DEVELOPMENT_WORKFLOW.md",
+    "sha256": "e7399a59e62eeef6ee58a0771073a6e2e4df76898fa92ee03bb9fd967bb77698",
+    "classification": "referencia preservada; nao e instrucao de produto nem comprovacao de paridade"
+  },
+  {
+    "repository": "base-saas-v1",
+    "commit": "be2ff2f5460edf216a69ed5c88c187f2c39654d9",
+    "path": "docs/DOCUMENTATION_POLICY.md",
+    "sha256": "c333eb868ff6a0437a6cc2b83b75b694768beb48735b1b9767465b8d2a75066c",
+    "classification": "referencia preservada; nao e instrucao de produto nem comprovacao de paridade"
+  },
+  {
+    "repository": "base-saas-v1",
+    "commit": "be2ff2f5460edf216a69ed5c88c187f2c39654d9",
+    "path": "docs/BASE_LINEAGE.md",
+    "sha256": "ae6e39f13ec95bb4fc161bd809825b78f612e8c4e327881c15a64043c4179a08",
+    "classification": "referencia preservada; nao e instrucao de produto nem comprovacao de paridade"
+  },
+  {
+    "repository": "saas_000_central",
+    "commit": "5ba83ba146fc9241f8a2e587648ce24de21845b6",
+    "path": "AGENTS.md",
+    "sha256": "9db04e71b43cda4532db4d64c4b49d1e3d76c2176ac3ef326eca7c8fa7d6ec0d",
+    "classification": "referencia preservada; nao e instrucao de produto nem comprovacao de paridade"
+  },
+  {
+    "repository": "saas_000_central",
+    "commit": "5ba83ba146fc9241f8a2e587648ce24de21845b6",
+    "path": "docs/ARCHITECTURE.md",
+    "sha256": "d58bacab324dc88ad5095aebb509639de7895d096470bf6fa612a0eebb0c27c3",
+    "classification": "referencia preservada; nao e instrucao de produto nem comprovacao de paridade"
+  }
+]

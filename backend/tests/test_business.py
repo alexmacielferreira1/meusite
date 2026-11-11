@@ -8,6 +8,7 @@ from sqlalchemy import text
 
 from app.db import engine
 from app.main import app
+from app.modules.auth import CSRF_COOKIE
 from app.modules.business import Business, Submission, quote_order
 
 
@@ -118,6 +119,7 @@ def account():
         },
     )
     assert r.status_code == 201, r.text
+    c.headers["X-CSRF-Token"] = c.cookies.get(CSRF_COOKIE)
     return c
 
 

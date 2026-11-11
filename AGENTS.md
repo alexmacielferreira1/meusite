@@ -10,3 +10,6 @@
 - Testes: pytest backend/tests -q; npm --prefix frontend test; npm --prefix frontend run typecheck.
 - Pacotes: python scripts/empacotar.py. Sem .env, banco, node_modules ou credenciais.
 - Atualizar plano e evidências após mudanças. Movimento e canvas evoluem por família, com aceites reais.
+
+- Alinhamento HUB: ler docs/AI_CONTEXT.md, REQUIREMENTS_MATRIX.md e BASE_LINEAGE.md. Referências preservadas não significam paridade integral.
+- Manter JWT, CSRF associado à sessão, Argon2 e revogação; nunca anunciar RLS, RBAC ou auditoria ainda não implementados.

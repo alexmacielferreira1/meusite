@@ -54,3 +54,7 @@ python scripts/empacotar.py
 ```
 
 O `vscode.dev` puro edita código, mas não compila nem executa o servidor. Use os ZIPs prontos para publicar sem Actions; para desenvolvimento no navegador com terminal, use um ambiente com execução.
+
+## Alinhamento ao HUB
+
+Consulte [matriz de requisitos](docs/REQUIREMENTS_MATRIX.md), [proveniência](docs/BASE_LINEAGE.md) e [índice](docs/DOCUMENTATION_INDEX.md). Esta é uma adoção incremental, com lacunas explícitas de RLS/RBAC e auditoria.

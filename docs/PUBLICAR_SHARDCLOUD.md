@@ -68,3 +68,11 @@ O pedido recebido não equivale a pagamento ou confirmação automática. Faça 
 Se configurar integração Git, use um repositório/branch exclusivo do MeuSite; jamais a main do Folios. O build compilado deve acompanhar as alterações. Ative Reiniciar após Deploy para atualizar a API. Um deploy de arquivos sem reinício pode deixar telas novas e API antiga.
 
 Domínio próprio da plataforma pode ser adicionado depois, com DNS e HTTPS. Domínios próprios por cliente ainda não têm automação nesta versão.
+
+## Contrato HUB desta passagem
+
+`/health` informa vida do processo; `/ready` verifica banco e identidade MeuSite; `/version` informa versão/build. Manifesto em `/.well-known/hub/manifest`. Para conexão de observação com Central, configurar `HUB_SERVICE_TOKEN` aleatório de pelo menos 32 caracteres no MeuSite e como credencial do conector na Central, sem expor no frontend. Os endpoints `/api/hub/v1/*` exigem Bearer e cabeçalhos de serviço. Não compartilhe JWT_SECRET com a Central. Sem esse token o app continua atendendo usuários, mas observação protegida retorna 503.
+
+Esta atualização aplica a migração `meusite_0012` (CSRF de sessão). Reiniciar o processo Python após sincronização. Sessões anteriores sem CSRF precisam de novo login. Confira `/ready` e teste login/publicação/pedido antes de abrir atendimento.
+
+Consultar REQUIREMENTS_MATRIX.md antes de tratar esta entrega como base HUB completa: RLS, RBAC organizacional e papéis de banco separados ainda estão pendentes.

@@ -7,7 +7,7 @@ from sqlalchemy import text
 
 from app.db import engine
 from app.main import app
-from app.modules.auth import COOKIE
+from app.modules.auth import COOKIE, CSRF_COOKIE
 from app.security.jwt_tokens import ALGORITHM, AUDIENCE, ISSUER, SECRET, create_token, token_subject
 
 
@@ -74,6 +74,8 @@ def test_jwt_cookie_is_httponly_and_logout_revokes_replay():
     assert "SameSite=lax" in response.headers["set-cookie"]
     assert token_subject(token) == response.json()["id"]
     assert c.get("/api/v1/auth/session").status_code == 200
+    assert c.post("/api/v1/auth/logout").status_code == 403
+    c.headers["X-CSRF-Token"] = c.cookies.get(CSRF_COOKIE)
     assert c.post("/api/v1/auth/logout").status_code == 200
     replay = TestClient(app, base_url="http://localhost:8000")
     replay.cookies.set(COOKIE, token)

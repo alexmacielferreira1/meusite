@@ -1,0 +1,62 @@
+{
+  "runtime": "passed",
+  "paths": [
+    "/health",
+    "/ready",
+    "/version",
+    "/.well-known/hub/manifest",
+    "/",
+    "/modelos",
+    "/exemplo/biz-pizzaria",
+    "/pranchas/11"
+  ],
+  "centralConnectorSourceCommit": "5ba83ba146fc9241f8a2e587648ce24de21845b6",
+  "centralConnector": {
+    "status": "healthy",
+    "evidence": {
+      "manifest_http_status": 200,
+      "health_http_status": 200,
+      "readiness_http_status": 200,
+      "version_http_status": 200,
+      "manifest": {
+        "schema_version": "1.0",
+        "product_id": "meusite",
+        "name": "MeuSite",
+        "version": "0.1.0",
+        "admin_api_version": "v1",
+        "integration_level": 1,
+        "capabilities": [
+          "hub:observe"
+        ],
+        "endpoints": {
+          "health": "/api/hub/v1/health",
+          "readiness": "/api/hub/v1/readiness",
+          "version": "/api/hub/v1/version"
+        },
+        "limits": {
+          "one_site_per_account": true
+        }
+      },
+      "health": {
+        "status": "healthy",
+        "product_id": "meusite"
+      },
+      "readiness": {
+        "status": "ready",
+        "product_id": "meusite",
+        "services": {
+          "database": "ok"
+        }
+      },
+      "version": {
+        "product_id": "meusite",
+        "version": "0.1.0",
+        "build": "meusite-0.1.0-20261111",
+        "environment": "test"
+      }
+    },
+    "latency_ms": 56,
+    "failure_code": null
+  },
+  "scope": "local synthetic credentials; no production Central connection"
+}

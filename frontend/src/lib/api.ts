@@ -44,9 +44,10 @@ export class ApiError extends Error {
 }
 
 export async function request<T>(path: string, method = "GET", body?: unknown, extra: Record<string, string> = {}): Promise<T> {
+  const csrf = typeof document!=="undefined" ? document.cookie.split("; ").map(x=>x.split("=")).find(([key])=>key==="__Host-meusite-csrf"||key==="meusite-csrf-dev")?.[1] : undefined;
   const response = await fetch((API_URL === "." ? "" : API_URL.replace(/\/$/, "")) + "/api/v1" + path, {
     method, credentials: "same-origin",
-    headers: { ...extra, ...(method !== "GET" && { "Content-Type": "application/json" }) },
+    headers: { ...extra, ...(method !== "GET" && { "Content-Type": "application/json", ...(csrf?{"X-CSRF-Token":csrf}:{}) }) },
     ...(method !== "GET" && { body: JSON.stringify(body ?? {}) }),
   });
   const result = await response.json().catch(() => null);

@@ -11,6 +11,8 @@ from functools import cache
 from uuid import uuid4
 
 from fastapi import APIRouter, HTTPException, Request, Response
+from pwdlib import PasswordHash
+from pwdlib.exceptions import UnknownHashError
 from pydantic import BaseModel, Field
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
@@ -28,6 +30,7 @@ from app.security.limite import ip_do_pedido
 router = APIRouter(prefix="/auth")
 SECURE = os.getenv("COOKIE_SECURE", "true").lower() == "true"
 COOKIE = "__Host-meusite" if SECURE else "meusite-dev"
+CSRF_COOKIE = "__Host-meusite-csrf" if SECURE else "meusite-csrf-dev"
 SESSION_TTL = 7 * 86400
 
 
@@ -79,7 +82,8 @@ LEGACY_LOG = 17
 HASH_SLOTS = threading.BoundedSemaphore(2)
 LEGACY_SLOT = threading.BoundedSemaphore(1)
 HASH_WAIT = 15  # segundos esperando vaga antes de responder 503
-DUMMY_HASH = f"s{SCRYPT_LOG}:{'00' * 16}:{'00' * 64}"  # e-mail inexistente custa o mesmo tempo
+PASSWORDS = PasswordHash.recommended()
+DUMMY_HASH = PASSWORDS.hash(secrets.token_urlsafe(32))  # e-mail inexistente custa o mesmo tempo
 
 
 def busy():
@@ -100,13 +104,26 @@ def scrypt_hex(password, salt, log):
 
 
 def make_password(password):
-    """Valor guardado em accounts.password_hash: "s<log>:<sal>:<hash>"."""
-    salt = secrets.token_bytes(16)
-    return f"s{SCRYPT_LOG}:{salt.hex()}:{scrypt_hex(password, salt, SCRYPT_LOG)}"
+    """Argon2id da Base SaaS V1, mantendo o limite de concorrência por processo."""
+    if not HASH_SLOTS.acquire(timeout=HASH_WAIT):
+        raise busy()
+    try:
+        return PASSWORDS.hash(password)
+    finally:
+        HASH_SLOTS.release()
 
 
 def check_password(password, stored):
     """Devolve (confere, precisa_refazer). Formato desconhecido nunca confere."""
+    if str(stored or "").startswith("$argon2"):
+        if not HASH_SLOTS.acquire(timeout=HASH_WAIT):
+            raise busy()
+        try:
+            return PASSWORDS.verify(password, stored), False
+        except (ValueError, UnknownHashError):
+            return False, False
+        finally:
+            HASH_SLOTS.release()
     parts = str(stored or "").split(":")
     legacy = len(parts) == 2
     if not legacy and (len(parts) != 3 or parts[0] != f"s{SCRYPT_LOG}"):
@@ -116,7 +133,8 @@ def check_password(password, stored):
     except ValueError:
         return False, False
     if not legacy:
-        return hmac.compare_digest(scrypt_hex(password, salt, SCRYPT_LOG), parts[-1]), False
+        ok = hmac.compare_digest(scrypt_hex(password, salt, SCRYPT_LOG), parts[-1])
+        return ok, ok
     if not LEGACY_SLOT.acquire(timeout=HASH_WAIT):
         raise busy()
     try:
@@ -207,14 +225,22 @@ def user_from_session(request: Request):
 def open_session(conn, request, response, account):
     now = int(time.time())
     token = create_token(str(account["id"]), SESSION_TTL)
+    csrf_token = secrets.token_urlsafe(32)
     previous = request.cookies.get(COOKIE)
     conn.execute(
         text("DELETE FROM sessions WHERE expires_at <= :now OR token_hash = :old"),
         {"now": now, "old": digest(previous) if previous else ""},
     )
     conn.execute(
-        text("INSERT INTO sessions VALUES (:token, :id, :expires)"),
-        {"token": digest(token), "id": account["id"], "expires": now + SESSION_TTL},
+        text(
+            "INSERT INTO sessions(token_hash,account_id,expires_at,csrf_hash) VALUES (:token, :id, :expires, :csrf)"
+        ),
+        {
+            "token": digest(token),
+            "id": account["id"],
+            "expires": now + SESSION_TTL,
+            "csrf": digest(csrf_token),
+        },
     )
     conn.execute(
         text("UPDATE accounts SET last_seen_at = :now WHERE id = :id"),
@@ -222,6 +248,15 @@ def open_session(conn, request, response, account):
     )
     response.set_cookie(
         COOKIE, token, max_age=SESSION_TTL, secure=SECURE, httponly=True, samesite="lax", path="/"
+    )
+    response.set_cookie(
+        CSRF_COOKIE,
+        csrf_token,
+        max_age=SESSION_TTL,
+        secure=SECURE,
+        httponly=False,
+        samesite="lax",
+        path="/",
     )
     # Já devolve se a conta é administradora: o menu aparece logo após entrar, sem recarregar.
     return {**account, "admin": is_admin_email(account["email"])}
@@ -352,4 +387,5 @@ def logout(request: Request, response: Response):
                 text("DELETE FROM sessions WHERE token_hash = :token"), {"token": digest(token)}
             )
     response.delete_cookie(COOKIE, path="/", secure=SECURE, httponly=True, samesite="lax")
+    response.delete_cookie(CSRF_COOKIE, path="/", secure=SECURE, httponly=False, samesite="lax")
     return {"ok": True}

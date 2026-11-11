@@ -16,7 +16,11 @@ BACKEND = ROOT / "backend"
 # Sem banco, a API cairia no SQLite local e perderia os dados a cada reinício.
 # LOGIN_HMAC_SECRET: chave do HMAC do e-mail no bloqueio de login (kit _kit_web).
 REQUIRED = ("DATABASE_URL", "LOGIN_HMAC_SECRET", "JWT_SECRET")
-DEFAULTS = {"APP_ORIGINS": "https://meusite.shardweb.app", "COOKIE_SECURE": "true"}
+DEFAULTS = {
+    "APP_ENV": "production",
+    "APP_ORIGINS": "https://meusite.shardweb.app",
+    "COOKIE_SECURE": "true",
+}
 PACKAGES = (
     "fastapi",
     "uvicorn",
@@ -27,6 +31,8 @@ PACKAGES = (
     "pypdf",
     "cryptography",
     "jwt",
+    "pwdlib",
+    "pydantic_settings",
 )
 
 

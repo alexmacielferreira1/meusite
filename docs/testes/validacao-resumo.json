@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "date": "2026-11-11",
   "frontendUnitTests": 5,
-  "backendTests": 15,
+  "backendTests": 19,
   "models": 105,
   "viewports": [
     1280,
@@ -13,7 +13,7 @@
   "boards": 10,
   "build": "passed",
   "ruff": "passed",
-  "runtimeZipExtracted": "started with python main.py",
+  "runtimeZipExtracted": "updated HUB/JWT/CSRF package started with python main.py; docs/testes/hub-runtime.json",
   "runtimePathsVerified": [
     "/health",
     "/",
@@ -36,5 +36,8 @@
   ],
   "productionShardCloud": "not deployed; owner must create a new app and database",
   "realAiProviderCalls": false,
-  "authentication": "JWT HS256 in HttpOnly cookie with persisted revocation"
+  "authentication": "JWT HS256 in HttpOnly cookie with persisted revocation",
+  "csrf": "Separate session-bound cookie/header",
+  "passwordHash": "Argon2 with legacy scrypt rehash",
+  "hubContract": "Level 1, locally verified using actual Central HubConnector"
 }
