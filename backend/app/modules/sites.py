@@ -405,6 +405,21 @@ def publish(body: PublishRequest, user=Depends(user_from_session)):
             if not row or row["revision"] != body.revision:
                 raise HTTPException(409, "O rascunho mudou. Recarregue e publique novamente.")
             draft = json.loads(row["draft"])
+            if not draft.get("business"):
+                raise HTTPException(422, "Preencha os dados do negócio antes de publicar.")
+            business = Business.model_validate(draft["business"])
+            if (
+                business.orderMode == "order"
+                and business.openForOrders
+                and not any(i.available and i.priceCents > 0 for i in business.items)
+            ):
+                raise HTTPException(
+                    422, "Cadastre ao menos um item disponível com preço para receber pedidos."
+                )
+            if business.orderMode == "catalog" and not (
+                business.phone.strip() or business.email.strip()
+            ):
+                raise HTTPException(422, "Informe um contato público para o catálogo.")
             if not draft["profile"]["name"].strip():
                 raise HTTPException(422, "Preencha o nome no perfil.")
             slug = draft["site"]["slug"]

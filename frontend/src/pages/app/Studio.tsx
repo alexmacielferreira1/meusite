@@ -1,4 +1,4 @@
-import { Brush, Clapperboard, ImagePlus, RotateCcw, ScanFace, Subtitles, Wand2 } from "lucide-react";
+import { Brush, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SiteDesignCanvas } from "../../components/SiteDesignCanvas";
@@ -6,14 +6,6 @@ import { ArtStudio } from "../../components/ArtStudio";
 import { PageHeader } from "../../components/layout/AppShell";
 import { useStore } from "../../lib/store";
 import { coverStyle } from "../../lib/utils";
-
-// Recursos do MediaMind AI que entram por paridade (docs/ESTUDIO_DE_ARTE.md). Aqui só como vitrine do que vem.
-const COMING = [
-  { icon: Clapperboard, t: "Thumbnail a partir do vídeo", d: "Escolher o quadro e montar a capa" },
-  { icon: ScanFace, t: "Recortar pessoa / remover fundo", d: "Retrato limpo para o hero" },
-  { icon: Subtitles, t: "Legendas automáticas", d: "Whisper, como no MediaMind" },
-
-];
 
 export default function Studio() {
   const { portfolio: p, update } = useStore();
@@ -28,7 +20,7 @@ export default function Studio() {
 
   return (
     <div className="mx-auto max-w-7xl p-5 sm:p-8">
-      <PageHeader icon={<Brush className="text-brand-600" size={32} />} title="Estúdio de Arte" subtitle="Ajuste imagens do negócio e do catálogo sem sair do Folios. O original fica guardado e cada ajuste vira uma versão." />
+      <PageHeader icon={<Brush className="text-brand-600" size={32} />} title="Estúdio de Arte" subtitle="Ajuste imagens do negócio e do catálogo sem sair do MeuSite. O original fica guardado e cada ajuste vira uma versão." />
 
       <div className="mb-6 flex flex-wrap gap-2"><button onClick={()=>setView("arts")} className={`rounded-xl border px-4 py-2 text-sm font-semibold ${view==="arts"?"border-brand-500 bg-brand-50 text-brand-700":"bg-white"}`}>Artes e imagens</button><button onClick={()=>setView("site")} className={`rounded-xl border px-4 py-2 text-sm font-semibold ${view==="site"?"border-brand-500 bg-brand-50 text-brand-700":"bg-white"}`}>Composição do meu site</button></div>
       {view==="site"?<SiteDesignCanvas/>:<>
@@ -59,18 +51,6 @@ export default function Studio() {
             </div>
           </article>
         ))}
-      </div>
-
-      <h2 className="mb-3 mt-10 text-sm font-semibold uppercase tracking-wider text-slate-500">Chegando do MediaMind AI</h2>
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {COMING.map(({ icon: I, t, d }) => (
-          <div key={t} className="rounded-2xl border border-dashed border-slate-300 bg-white p-5 opacity-80">
-            <I className="text-brand-600" /><p className="mt-3 font-semibold">{t}</p><p className="text-sm text-slate-500">{d}</p>
-            <span className="mt-3 inline-block rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-500">em breve</span>
-          </div>
-        ))}
-        <div className="rounded-2xl border border-slate-200 bg-brand-50 p-5"><Wand2 className="text-brand-700" /><p className="mt-3 font-semibold text-plum-900">Já funciona</p><p className="text-sm text-slate-600">Ajustes rápidos e canvas com camadas: texto, imagens, formas, arraste, alinhamento, rotação, opacidade, histórico e exportação.</p></div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-5"><ImagePlus className="text-brand-700" /><p className="mt-3 font-semibold">Versões para cada lugar</p><p className="text-sm text-slate-500">Horizontal para o site, vertical para Reels, 1.91:1 para a prévia do link.</p></div>
       </div>
 
       </>}

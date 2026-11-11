@@ -114,7 +114,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     timer.current = window.setTimeout(() => void flush().catch(() => {}), 650);
   }
 
-  function update(fn: (p: Portfolio) => Portfolio) { replace(fn(structuredClone(latest.current))); }
+  function update(fn: (p: Portfolio) => Portfolio) {
+    const before=latest.current;
+    const next=fn(structuredClone(before));
+    if(next.business&&before.business){
+      next.business.items=next.business.items.map(item=>{
+        const work=next.works.find(w=>w.id===item.id),oldWork=before.works.find(w=>w.id===item.id),oldItem=before.business?.items.find(x=>x.id===item.id);
+        return work&&oldWork&&work.cover!==oldWork.cover&&item.image===oldItem?.image?{...item,image:work.cover}:item;
+      });
+      if(next.profile.photo!==before.profile.photo&&next.business.heroImage===before.business.heroImage)next.business.heroImage=next.profile.photo??"";
+    }
+    replace(next);
+  }
 
   async function setPublication(on: boolean) {
     if (DEMO_MODE) {

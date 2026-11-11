@@ -1,0 +1,39 @@
+{
+  "product": "MeuSite",
+  "version": "0.1.0",
+  "date": "2026-11-11",
+  "frontendUnitTests": 5,
+  "backendTests": 11,
+  "models": 105,
+  "viewports": [
+    1280,
+    390
+  ],
+  "modelChecks": 210,
+  "boards": 10,
+  "build": "passed",
+  "ruff": "passed",
+  "runtimeZipExtracted": "started with python main.py",
+  "runtimePathsVerified": [
+    "/health",
+    "/",
+    "/modelos",
+    "/exemplo/biz-pizzaria",
+    "/pranchas/11",
+    "/miniaturas/biz-pizzaria.jpg",
+    "/demos/photo-1513104890138-7c749659a591.jpg",
+    "/fonts/fonts.css",
+    "/api/v1/privacidade/aviso"
+  ],
+  "browserFlow": [
+    "register",
+    "edit",
+    "publish",
+    "public order",
+    "owner inbox",
+    "status change",
+    "draft snapshot separation"
+  ],
+  "productionShardCloud": "not deployed; owner must create a new app and database",
+  "realAiProviderCalls": false
+}

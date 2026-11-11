@@ -19,7 +19,7 @@ const api = criarApiPrivacidade((API_URL === "." ? "" : API_URL.replace(/\/$/, "
 export default function Legal({ tipo }: { tipo: "privacidade" | "termos" }) {
   useEffect(() => {
     const antes = document.title;
-    document.title = `${tipo === "privacidade" ? "Privacidade" : "Termos de uso"} | Folios`;
+    document.title = `${tipo === "privacidade" ? "Privacidade" : "Termos de uso"} | MeuSite`;
     return () => { document.title = antes; };
   }, [tipo]);
   if (DEMO_MODE) {

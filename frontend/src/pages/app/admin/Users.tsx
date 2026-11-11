@@ -26,7 +26,7 @@ export function PasswordNotice({ email, password, onClose }: { email: string; pa
   );
 }
 
-/** Contas do Folios: busca, contas de teste, plano, créditos de IA, suspensão e nova senha. */
+/** Contas do MeuSite: busca, contas de teste, plano, créditos de IA, suspensão e nova senha. */
 export default function Users() {
   const { user: me } = useStore();
   const [users, setUsers] = useState<AdminUser[] | null>(null);

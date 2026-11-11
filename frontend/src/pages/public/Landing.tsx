@@ -81,7 +81,7 @@ export default function Landing() {
           <h2 className="text-center font-display text-3xl font-bold sm:text-4xl">Três passos, nenhum código</h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
-              { icon: Wand2, t: "Responda 4 perguntas", d: "Escolha função, objetivo e estilo. O Folios monta um rascunho que você pode personalizar." },
+              { icon: Wand2, t: "Responda 4 perguntas", d: "Escolha função, objetivo e estilo. O MeuSite monta um rascunho que você pode personalizar." },
               { icon: Upload, t: "Suba seus trabalhos", d: "Adicione imagens e links de vídeos, áudios ou matérias. Registre sua função e o que você entregou." },
               { icon: Sparkles, t: "Publique e compartilhe", d: "Coloque seu site no ar e compartilhe seleções com prazo para clientes e recrutadores." },
             ].map(({ icon: I, t, d }, i) => (
@@ -152,7 +152,7 @@ export default function Landing() {
 
       : <section id="planos" className="mx-auto max-w-6xl px-4 py-16 text-center">
         <h2 className="font-display text-3xl font-bold">Acesso gratuito no piloto</h2>
-        <p className="mt-3 text-slate-600">O Folios está em fase piloto, com acesso gratuito. Publique seu portfólio e organize seus trabalhos. Planos pagos e contratação ainda não estão disponíveis.</p>
+        <p className="mt-3 text-slate-600">O MeuSite está em fase piloto, com acesso gratuito. Publique seu portfólio e organize seus trabalhos. Planos pagos e contratação ainda não estão disponíveis.</p>
         <Link to="/cadastro" className="mt-5 inline-block rounded-xl bg-brand-600 px-6 py-3 font-semibold text-white">Criar conta</Link>
       </section>}
 

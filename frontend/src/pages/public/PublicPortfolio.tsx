@@ -28,7 +28,7 @@ function PublishedSite({ slug, opportunity }: { slug: string; opportunity: boole
     const before = document.title;
     const { name, headline } = data.portfolio.profile;
     const who = headline ? `${name} · ${headline}` : name;
-    document.title = data.title ? `Seleção para ${data.title} · ${name} | Folios` : `${who} | Folios`;
+    document.title = data.title ? `Seleção para ${data.title} · ${name} | MeuSite` : `${who} | MeuSite`;
     return () => { document.title = before; };
   }, [data]);
   if (data) return <PortfolioSite portfolio={data.portfolio} opportunityTitle={data.title} trackSlug={opportunity ? undefined : slug} />;

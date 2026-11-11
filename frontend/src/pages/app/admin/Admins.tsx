@@ -30,7 +30,7 @@ export default function Admins() {
       {message && <p role="status" className="rounded-xl bg-slate-50 p-3 text-sm text-plum-900">{message}</p>}
       <section className="rounded-3xl border border-slate-200 bg-white p-6">
         <h2 className="font-display text-lg font-bold text-plum-900">Adicionar administrador</h2>
-        <p className="mt-1 text-sm text-slate-600">A pessoa cria a conta no Folios primeiro. Ao adicionar, a conta recebe uma senha provisória e as sessões abertas são encerradas: entregue a senha direto à pessoa (o cadastro não confirma o e-mail).</p>
+        <p className="mt-1 text-sm text-slate-600">A pessoa cria a conta no MeuSite primeiro. Ao adicionar, a conta recebe uma senha provisória e as sessões abertas são encerradas: entregue a senha direto à pessoa (o cadastro não confirma o e-mail).</p>
         <form className="mt-4 flex flex-wrap gap-2" onSubmit={(e) => {
           e.preventDefault();
           const value = email.trim();

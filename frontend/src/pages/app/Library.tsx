@@ -51,8 +51,8 @@ export default function Library() {
         <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
           <section className="space-y-3 rounded-3xl border border-slate-200 bg-white p-6">
             <h2 className="font-display text-xl font-bold text-plum-900">Restaurar</h2>
-            <button onClick={() => update((x) => resetTemplate(snapshot(x, "Antes de voltar ao padrão do Folios")))} className="flex w-full items-start gap-3 rounded-2xl border border-slate-200 p-4 text-left hover:bg-slate-50">
-              <RotateCcw size={18} className="mt-0.5 text-brand-700" /><span><b className="block text-sm">Voltar ao padrão original do Folios</b><span className="text-xs text-slate-500">Modelo {templateById(p.site.templateId).name} como veio. Seu conteúdo fica.</span></span>
+            <button onClick={() => update((x) => resetTemplate(snapshot(x, "Antes de voltar ao padrão do MeuSite")))} className="flex w-full items-start gap-3 rounded-2xl border border-slate-200 p-4 text-left hover:bg-slate-50">
+              <RotateCcw size={18} className="mt-0.5 text-brand-700" /><span><b className="block text-sm">Voltar ao padrão original do MeuSite</b><span className="text-xs text-slate-500">Modelo {templateById(p.site.templateId).name} como veio. Seu conteúdo fica.</span></span>
             </button>
             <p className="pt-2 text-xs font-semibold uppercase tracking-wider text-slate-500">Voltar ao meu padrão salvo</p>
             {(p.library ?? []).filter((i) => i.kind === "modelo").map((i) => (

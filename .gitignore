@@ -28,3 +28,6 @@ frontend/coverage/
 coverage/
 htmlcov/
 .coverage
+
+/frontend/node_modules
+/pacotes/

@@ -28,7 +28,9 @@ def database_url():
     """URL do PostgreSQL vinda de ``DATABASE_URL``; o MeuSite não roda em outro banco."""
     url = os.getenv("DATABASE_URL", "").strip()
     if not url:
-        raise RuntimeError("DATABASE_URL não definida: o MeuSite usa PostgreSQL (veja env.example).")
+        raise RuntimeError(
+            "DATABASE_URL não definida: o MeuSite usa PostgreSQL (veja env.example)."
+        )
     url = normalize_url(url)
     if not url.startswith("postgresql+psycopg://"):
         raise RuntimeError("DATABASE_URL precisa apontar para PostgreSQL (postgresql://...).")

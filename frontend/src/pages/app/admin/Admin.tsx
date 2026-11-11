@@ -34,7 +34,7 @@ export default function Admin() {
   const Page = tab.page;
   return (
     <div className="mx-auto max-w-6xl p-5 sm:p-8">
-      <PageHeader title="Administração" subtitle="Usuários, planos, pagamentos, erros, IA e quem administra o Folios." />
+      <PageHeader title="Administração" subtitle="Usuários, planos, pagamentos, erros, IA e quem administra o MeuSite." />
       <nav aria-label="Abas da administração" className="-mx-1 mb-6 flex gap-1 overflow-x-auto border-b border-slate-200 px-1">
         {TABS.map(({ id, label, icon: Icon }) => (
           <NavLink key={id} to={id === "visao-geral" ? "/app/admin" : `/app/admin/${id}`} end

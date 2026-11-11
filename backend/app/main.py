@@ -28,7 +28,7 @@ from app.security.seguranca_http import CabecalhosMiddleware, LimiteCorpoMiddlew
 # Keep WebP delivery consistent on Windows and Linux.
 mimetypes.add_type("image/webp", ".webp")
 
-app = FastAPI(title="MeuSite API", version="0.2.0")
+app = FastAPI(title="MeuSite API", version="0.1.0")
 for module in (auth, sites, business, ai, links, aiadmin, admin, privacidade):
     app.include_router(module.router, prefix="/api/v1")
 app.include_router(admin.public_router, prefix="/api/v1")
@@ -114,13 +114,13 @@ async def unexpected_error(request: Request, exc: Exception):
 def health():
     with engine.connect() as conn:
         conn.execute(text("SELECT 1 FROM accounts LIMIT 1"))
-    return {"status": "ok"}
+    return {"status": "ok", "product": "meusite", "version": "0.1.0"}
 
 
 dist = Path(os.getenv("FRONTEND_DIST", "../frontend/dist"))
 ROOT_FILES = {"favicon.svg", "favicon.ico", "build.txt"}
 if (dist / "index.html").is_file():
-    for folder in ("demos", "fonts", "modelos", "pranchas"):
+    for folder in ("demos", "fonts", "miniaturas"):
         if (dist / folder).is_dir():
             app.mount("/" + folder, StaticFiles(directory=dist / folder), name="meusite-" + folder)
     if (dist / "referencias-modelos").is_dir():

@@ -38,7 +38,7 @@ export default function Payments() {
     <div className="space-y-6">
       {message && <p role="alert" className="rounded-xl bg-slate-50 p-3 text-sm text-plum-900">{message}</p>}
       <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-        Ainda não há meio de pagamento ligado ao Folios. Registre aqui o que receber (Pix, cartão, boleto) e ajuste o plano da conta.</p>
+        Ainda não há meio de pagamento ligado ao MeuSite. Registre aqui o que receber (Pix, cartão, boleto) e ajuste o plano da conta.</p>
 
       <section aria-label="Planejamento de planos" className="rounded-3xl border border-slate-200 bg-white p-6">
         <h2 className="font-display text-lg font-bold text-plum-900">Planos — planejamento interno</h2>

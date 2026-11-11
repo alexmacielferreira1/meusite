@@ -1,0 +1,14 @@
+{
+  "registered": true,
+  "published": true,
+  "orderReceived": true,
+  "inboxOwned": true,
+  "statusChanged": true,
+  "draftSeparated": true,
+  "mobile": {
+    "width": 390,
+    "viewport": 390
+  },
+  "errors": [],
+  "slug": "pizza-1794408601478"
+}

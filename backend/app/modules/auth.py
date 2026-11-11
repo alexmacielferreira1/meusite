@@ -26,7 +26,7 @@ from app.security.limite import ip_do_pedido
 
 router = APIRouter(prefix="/auth")
 SECURE = os.getenv("COOKIE_SECURE", "true").lower() == "true"
-COOKIE = "__Host-foliocom" if SECURE else "foliocom-dev"
+COOKIE = "__Host-meusite" if SECURE else "meusite-dev"
 SESSION_TTL = 7 * 86400
 
 
@@ -226,7 +226,7 @@ REGISTER_REFUSED = MENSAGEM_CADASTRO  # kit _kit_web: mesma recusa para admin e 
 LOGIN_RULE = RegraBloqueio(
     max_tentativas=5, janela=timedelta(minutes=15), bloqueio=timedelta(minutes=15), teto_conta=20
 )
-DEV_LOGIN_SECRET = "foliocom-dev-login-hmac-nao-usar-em-producao"
+DEV_LOGIN_SECRET = "meusite-dev-login-hmac-nao-usar-em-producao"
 
 
 @cache
@@ -310,7 +310,7 @@ def login(body: Credentials, request: Request, response: Response):
     bloqueio.expurgar()  # o IP das tentativas sai quando a janela acaba (LGPD art. 15 e 16)
     # Só quem acertou a senha sabe que a conta está suspensa.
     if row["disabled"]:
-        raise HTTPException(403, "Esta conta está suspensa. Fale com a administração do Folios.")
+        raise HTTPException(403, "Esta conta está suspensa. Fale com a administração do MeuSite.")
     with engine.begin() as conn:
         if stale:
             conn.execute(

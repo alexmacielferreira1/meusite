@@ -1,5 +1,5 @@
 // Tipos mínimos das páginas do _kit_privacidade (os arquivos do kit são .js/.jsx e não são
-// editados no app). Só o que o Folios usa.
+// editados no app). Só o que o MeuSite usa.
 declare module "*/privacidade/privacidadeApi" {
   export interface ApiPrivacidade {
     aviso: () => Promise<unknown>;

@@ -58,7 +58,18 @@ class Item(BaseModel):
     @classmethod
     def safe_image(cls, value):
         local = bool(re.fullmatch(r"/demos/[a-zA-Z0-9_-]+\.jpg", value))
-        if value and not local and not value.startswith(("https://", "data:image/jpeg;base64,", "data:image/png;base64,", "data:image/webp;base64,")):
+        if (
+            value
+            and not local
+            and not value.startswith(
+                (
+                    "https://",
+                    "data:image/jpeg;base64,",
+                    "data:image/png;base64,",
+                    "data:image/webp;base64,",
+                )
+            )
+        ):
             raise ValueError("Use uma imagem enviada ou endereço https.")
         return value
 
@@ -229,7 +240,7 @@ def quote_order(business, data):
     payload = data.model_dump(exclude={"clientToken", "consent"})
     payload["items"] = lines
     payload["subtotalCents"], payload["deliveryFeeCents"] = subtotal, fee
-    return payload, subtotal + fee
+    return payload, subtotal + fee if data.kind == "order" else 0
 
 
 @router.post("/business/{slug}/requests", status_code=201)

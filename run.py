@@ -89,6 +89,9 @@ def main() -> int:
         log("Faltam variáveis de ambiente no painel: " + ", ".join(missing))
         log("Veja o bloco 'Produção' em env.example. A API não foi iniciada.")
         return 2
+    if len(os.environ.get("LOGIN_HMAC_SECRET", "")) < 32:
+        log("LOGIN_HMAC_SECRET precisa ser um segredo novo com pelo menos 32 caracteres.")
+        return 2
     if not ensure_packages():
         log("Falha ao instalar as dependências. A API não foi iniciada.")
         return 3
