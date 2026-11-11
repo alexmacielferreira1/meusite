@@ -1,0 +1,138 @@
+# Privacidade do Folios (_kit_privacidade 0.1.1). Gera GET /api/v1/privacidade/aviso e as
+# páginas /privacidade e /termos. Só o que o código faz hoje (auditoria de 08/11/2026,
+# relatorios/saas_012_foliocom.md); o que falta decidir fica "[A PREENCHER]" e aparece como
+# "em definição". Texto-base: precisa de revisão jurídica.
+
+versao = "1.0"
+atualizado_em = "2026-11-10"
+
+[app]
+nome = "Folios"
+url = "https://foliocom.shardweb.app"
+papel = "controlador"
+tela_meus_dados = false           # não há tela "Meus dados" ainda
+registro_acesso = false           # o app não guarda registro de acesso (pendência L-06 da auditoria)
+pedidos_online = false            # o app não envia e-mail: pedidos por e-mail ao encarregado
+
+[controlador]                     # decisão do Alex (09/11): em definição por enquanto
+nome = "[A PREENCHER]"
+documento = "[A PREENCHER]"
+endereco = "[A PREENCHER]"
+email = "[A PREENCHER]"
+
+[encarregado]
+nome = "[A PREENCHER]"
+email = "[A PREENCHER]"
+canal = "E-mail"
+
+[[finalidades]]
+chave = "conta"
+nome = "Criar e manter a sua conta"
+titulares = "Pessoas que criam conta no Folios"
+dados = ["nome", "e-mail", "senha (guardada só como hash)", "data do cadastro e do último acesso"]
+base_legal = "execucao_contrato"
+prazo = "[A PREENCHER]"
+
+[[finalidades]]
+chave = "portfolio"
+nome = "Montar e publicar o seu portfólio e as vitrines por vaga"
+titulares = "Pessoas que criam conta e as pessoas que elas citam no portfólio"
+dados = ["perfil (nome, cidade, função, bio, foto e os contatos que você escolhe mostrar)", "trabalhos (títulos, descrições, imagens e links)", "depoimentos, equipe e clientes que você inclui", "vagas e briefings que você cola nas vitrines"]
+base_legal = "execucao_contrato"
+prazo = "[A PREENCHER]"
+
+[[finalidades]]
+chave = "estatisticas"
+nome = "Mostrar quantas visitas e cliques o seu portfólio teve"
+titulares = "Visitantes dos portfólios publicados"
+dados = ["contagem de visitas e cliques por dia, sem IP e sem cookie do visitante"]
+base_legal = "legitimo_interesse"
+prazo = "[A PREENCHER]"
+
+[[finalidades]]
+chave = "ia"
+nome = "Assistente de textos e leitura de currículo e de vagas com IA"
+titulares = "Pessoas que usam o assistente"
+dados = ["textos que você pede para a IA escrever ou revisar", "currículo (PDF, imagem ou texto) e print ou link de vaga que você envia"]
+base_legal = "execucao_contrato"
+prazo = "Não guardamos o arquivo do currículo; o texto lido fica no seu perfil se você aplicar"
+
+[[finalidades]]
+chave = "origem"
+nome = "Saber de qual anúncio, grupo ou parceiro veio o cadastro"
+titulares = "Pessoas que criam conta a partir de um link com etiqueta"
+dados = ["etiquetas do link de entrada (origem, meio, campanha e anúncio)"]
+base_legal = "legitimo_interesse"
+prazo = "[A PREENCHER]"
+
+[[finalidades]]
+chave = "seguranca"
+nome = "Proteger o login e limitar tentativas"
+titulares = "Visitantes e pessoas com conta"
+dados = ["IP (no bloqueio de login e, como hash, no limite de tentativas)", "e-mail tentado no login"]
+base_legal = "legitimo_interesse"
+prazo = "[A PREENCHER]"
+
+[[finalidades]]
+chave = "erros"
+nome = "Corrigir erros do sistema"
+titulares = "Pessoas com conta e visitantes"
+dados = ["página e mensagem do erro", "conta, quando há sessão"]
+base_legal = "legitimo_interesse"
+prazo = "[A PREENCHER]"
+
+[[operadores]]
+nome = "ShardCloud"
+servico = "Hospedagem do site e da API"
+pais = "[A PREENCHER]"
+mecanismo = "[A PREENCHER]"
+dados = ["todos os dados do app", "IP de quem acessa"]
+
+[[operadores]]
+nome = "[A PREENCHER]"
+servico = "Banco de dados PostgreSQL"
+pais = "[A PREENCHER]"
+mecanismo = "[A PREENCHER]"
+dados = ["todos os dados do app"]
+
+[[operadores]]
+nome = "Anthropic"
+servico = "Inteligência artificial (assistente de textos e leitura de currículo e vagas)"
+pais = "Estados Unidos"
+mecanismo = "[A PREENCHER]"
+dados = ["textos enviados ao assistente", "currículo e print ou texto de vaga enviados para leitura"]
+
+[[operadores]]
+nome = "Google (Google Fonts)"
+servico = "Fontes das páginas"
+pais = "Estados Unidos"
+mecanismo = "[A PREENCHER]"
+dados = ["IP e navegador de quem abre o site"]
+
+[[operadores]]
+nome = "YouTube e Vimeo"
+servico = "Vídeos incorporados nos portfólios e leitura de título e capa dos links"
+pais = "Estados Unidos"
+mecanismo = "[A PREENCHER]"
+dados = ["IP e navegador de quem dá play", "links de vídeo que você cadastra"]
+
+[[operadores]]
+nome = "Spotify e SoundCloud"
+servico = "Leitura de título e capa de links de áudio"
+pais = "[A PREENCHER]"
+mecanismo = "[A PREENCHER]"
+dados = ["links de áudio que você cadastra"]
+
+[[armazenamento]]
+nome = "sessão (foliocom)"
+tipo = "cookie"
+finalidade = "Manter você conectado"
+essencial = true
+prazo = "7 dias ou até você sair"
+
+[[armazenamento]]
+nome = "origem do cadastro (foliocom:origem:v1)"
+tipo = "localStorage"
+finalidade = "Lembrar de qual link você chegou até criar a conta"
+essencial = false
+prazo = "30 dias ou até criar a conta"

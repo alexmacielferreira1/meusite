@@ -1,0 +1,56 @@
+import { MOTION_DESIGNS } from "./motionDesigns";
+// Ajustados à mão pela prancha: assessoria-imprensa, campanhas-resultados, cobertura-eventos, comunicacao-corporativa, equipe-projetos, motion-design, podcast-producao-sonora, producao-criadores, projetos-educacionais, servicos-orcamento, social-media, videomaker, vitrine-multidisciplinar, direcao-arte, redacao-publicitaria, impacto, estudio-criativo, reporter-tv
+import type { PhotoLookId } from "../types/portfolio";
+
+/** Acabamento das fotos de cada modelo, escolhido para combinar com a prancha de referência. */
+export const TEMPLATE_LOOKS: Record<string, PhotoLookId> = {
+  ...Object.fromEntries(MOTION_DESIGNS.map(d=>[d.id, d.layout==="cinematic"?"filme":"natural"] as const)),
+  "editor-pro": "filme",
+  "grade-suica": "natural",
+  "editorial": "quente",
+  "impacto": "natural",
+  "documental": "filme",
+  "mosaico": "natural",
+  "portfolio-compacto": "quente",
+  "curriculo-com-trabalhos": "natural",
+  "arquivo-editorial": "quente",
+  "videomaker": "quente",
+  "producao-audiovisual": "quente",
+  "designer-grafico": "natural",
+  "motion-design": "natural",
+  "fotografia": "quente",
+  "jornalismo": "quente",
+  "social-media": "natural",
+  "assessoria-imprensa": "natural",
+  "locucao-audio": "filme",
+  "direcao-fotografia": "filme",
+  "documentarista": "quente",
+  "reporter-tv": "natural",
+  "direcao-arte": "natural",
+  "redacao-publicitaria": "natural",
+  "podcast-producao-sonora": "natural",
+  "cobertura-eventos": "natural",
+  "comunicacao-corporativa": "natural",
+  "estrategia-conteudo": "quente",
+  "estudio-criativo": "natural",
+  "colorista": "filme",
+  "efeitos-visuais": "duotone",
+  "roteiro-audiovisual": "quente",
+  "ilustracao-editorial": "natural",
+  "fotojornalismo": "pb",
+  "design-informacao": "natural",
+  "apresentacao-mediacao": "quente",
+  "comunicacao-publica": "natural",
+  "ux-writing": "natural",
+  "producao-criadores": "natural",
+  "vitrine-multidisciplinar": "natural",
+  "case-em-profundidade": "quente",
+  "servicos-orcamento": "natural",
+  "campanhas-resultados": "natural",
+  "projetos-digitais": "natural",
+  "projetos-educacionais": "natural",
+  "equipe-projetos": "natural",
+};
+
+export const lookOf = (templateId: string): PhotoLookId => Object.prototype.hasOwnProperty.call(TEMPLATE_LOOKS, templateId) ? TEMPLATE_LOOKS[templateId] : "natural";
+

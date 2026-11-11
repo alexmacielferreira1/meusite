@@ -1,0 +1,20 @@
+/* Folios - tokens propostos. Ajustar após conferir CSS atual e contraste. */
+:root {
+ --folios-purple-deep: #6A11CB;
+ --folios-purple-bright: #8F3FF6;
+ --folios-lavender: #C896FF;
+ --folios-lavender-light: #E9D9FF;
+ --folios-ink: #170F25;
+ --folios-ink-dark: #0D0618;
+ --folios-text-secondary: #5B556B;
+ --folios-surface: #FAF8FD;
+ --folios-white: #FFFFFF;
+ --folios-radius-sm: 8px;
+ --folios-radius-md: 14px;
+ --folios-radius-lg: 22px;
+ --folios-focus: 0 0 0 3px rgba(143, 63, 246, .35);
+ --folios-shadow-soft: 0 12px 28px rgba(23, 15, 37, .12);
+ --folios-font-display: "Sora", "Manrope", sans-serif;
+ --folios-font-body: "Sora", system-ui, sans-serif;
+}
+/* Não alterar o artwork oficial do ícone nem aplicar filtros sobre ele. */

@@ -1,0 +1,26 @@
+@import "./folios-brand-tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+.scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(120,130,150,.35); border-radius: 8px; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
+
+/* Product typography; published portfolio models keep their existing fonts. */
+@layer base {
+  body { font-family: var(--folios-font-body); color: var(--folios-ink); background: var(--folios-surface); }
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid var(--folios-purple-bright);
+    outline-offset: 3px;
+  }
+}
+@layer utilities {
+  .font-display { font-family: var(--folios-font-display); }
+}
+.fc-site { --folios-font-body: "Inter", system-ui, sans-serif; --folios-font-display: "Space Grotesk", Inter, sans-serif; font-family: var(--folios-font-body); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

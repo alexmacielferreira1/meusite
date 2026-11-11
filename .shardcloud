@@ -1,0 +1,6 @@
+DISPLAY_NAME=MeuSite
+DESCRIPTION=MeuSite - sites para pequenos negócios
+MAIN=run.py
+MEMORY=512
+VERSION=recommended
+SUBDOMAIN=meusite
