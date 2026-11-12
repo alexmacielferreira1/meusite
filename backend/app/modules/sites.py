@@ -504,7 +504,7 @@ def published_row(conn, slug, request):
         .first()
     )
     if not row:
-        raise HTTPException(404, "Portfólio não publicado ou endereço inválido.")
+        raise HTTPException(404, "Site não publicado ou endereço inválido.")
     if row["visit_password"]:
         given = request.headers.get("X-Site-Password", "")
         if not given:

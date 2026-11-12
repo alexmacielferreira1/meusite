@@ -22,3 +22,15 @@ describe('MeuSite: catálogo e adaptação',()=>{
   expect(new Set(SEGMENTS.map(s=>sampleBusiness(s.id).headline)).size).toBe(30);expect(sampleBusiness('pizzaria').orderMode).toBe('order');expect(sampleBusiness('imobiliaria').items[0].kind).toBe('property');expect(sampleBusiness('pilates').orderMode).toBe('booking');
  });
 });
+
+describe('QA 12/11: textos do catálogo',()=>{
+  it('um item diz "1 opção" e o aviso de meia-meia só aparece se algum item permite',()=>{
+    const p=businessDemo('pizzaria','biz-restaurante');
+    p.business!.items=[{...p.business!.items[0],allowHalf:false}];p.business!.halfPizza=true;
+    let html=renderToStaticMarkup(<BusinessSite portfolio={p} preview/>);
+    expect(html).toContain('1 opção</span>');expect(html).not.toContain('Meia-meia:');
+    p.business!.items=[{...p.business!.items[0],allowHalf:true}];
+    html=renderToStaticMarkup(<BusinessSite portfolio={p} preview/>);
+    expect(html).toContain('Meia-meia:');
+  });
+});
