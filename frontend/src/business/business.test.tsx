@@ -34,3 +34,25 @@ describe('QA 12/11: textos do catálogo',()=>{
     expect(html).toContain('Meia-meia:');
   });
 });
+
+import {faqFor} from "./adapter";
+describe('QA 12/11: FAQ de exemplo segue o tipo de negócio',()=>{
+  it('pedido, horário, orçamento e imóvel têm perguntas próprias',()=>{
+    expect(faqFor('order').map(x=>x.question)).toEqual(['Como faço um pedido?','O pedido é confirmado na hora?']);
+    expect(faqFor('booking')[1].question).toBe('Os horários são confirmados automaticamente?');
+    expect(faqFor('quote')[1].question).toBe('Quanto tempo leva o orçamento?');
+    expect(faqFor('quote',true)[1].question).toBe('Como agendo uma visita?');
+    expect(businessDemo('pizzaria','biz-restaurante').business!.faq.map(x=>x.question)).not.toContain('Os horários são confirmados automaticamente?');
+  });
+});
+
+describe('QA 12/11: FAQ sem resposta não é publicado',()=>{
+  it('esconde pergunta vazia ou sem resposta',()=>{
+    const p=businessDemo('pizzaria','biz-restaurante');
+    p.business!.faq=[{question:'Fazem entrega?',answer:'Sim, na região.'},{question:'Nova pergunta',answer:''}];
+    const html=renderToStaticMarkup(<BusinessSite portfolio={p} preview/>);
+    expect(html).toContain('Fazem entrega?');expect(html).not.toContain('Nova pergunta');
+    p.business!.faq=[{question:'Nova pergunta',answer:''}];
+    expect(renderToStaticMarkup(<BusinessSite portfolio={p} preview/>)).not.toContain('Pode perguntar');
+  });
+});
